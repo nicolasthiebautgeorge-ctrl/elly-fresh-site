@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Elly Fresh — Les repas de la semaine, sans y penser</title>
+<meta name="description" content="Elly Fresh libère la charge mentale des repas : planning de la semaine, liste de courses automatique, stock maison et Rosie, l'assistante à qui on parle. Sans pub, sans marques sponsorisées." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #1C2A3F;
+    --navy-panel: #2A3950;
+    --navy-deep: #141F30;
+    --cream: #FAF3E7;
+    --card: #FFFDF8;
+    --ink: #10151E;
+    --slate: #232B33;
+    --yellow: #F2B705;
+    --rust: #C8500F;
+    --red: #C8102E;
+    --khaki: #3A4A3F;
+    --pale-blue: #B9CBE0;
+    --on-dark: #C9D4E4;
+    --muted-dark: #9FB0C6;
+    --taupe: #8D8272;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Public Sans', sans-serif;
+    background: var(--navy);
+    color: var(--on-dark);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .poster {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    line-height: 1.12;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+  section { padding: 72px 0; }
+
+  /* ── Signatures visuelles ─────────────────────────────── */
+  .hard {
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 0 var(--ink);
+  }
+  .hard-sm {
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 0 var(--ink);
+  }
+
+  .chip {
+    display: inline-block;
+    font-weight: 800;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink);
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 7px;
+    padding: 3px 10px;
+  }
+  .chip.blue { background: var(--pale-blue); }
+  .chip.rust { background: var(--rust); color: var(--cream); }
+  .chip.khaki { background: var(--khaki); color: var(--cream); }
+
+  .btn {
+    display: inline-block;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 17px;
+    color: var(--ink);
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 5px 5px 0 0 var(--ink);
+    padding: 14px 30px;
+    text-decoration: none;
+    transition: transform 0.06s, box-shadow 0.06s;
+  }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 0 var(--ink); }
+
+  /* Crochets de coin */
+  .brackets { position: relative; }
+  .brackets::before, .brackets::after {
+    content: '';
+    position: absolute;
+    width: 15px; height: 15px;
+    border-color: currentColor;
+    border-style: solid;
+    opacity: 0.65;
+  }
+  .brackets::before { top: 9px; right: 9px; border-width: 3px 3px 0 0; }
+  .brackets::after { bottom: 9px; left: 9px; border-width: 0 0 3px 3px; }
+  /* Sur la carte du téléphone, le crochet bas-gauche chevauchait les chips. */
+  .mini-card.brackets::after { content: none; }
+
+  /* Jauge crantée */
+  .gauge { display: flex; gap: 4px; }
+  .gauge i {
+    flex: 1; height: 10px;
+    background: var(--navy-panel);
+    border: 2px solid var(--ink);
+    border-radius: 3px;
+  }
+  .gauge i.on { background: var(--yellow); }
+
+  /* Apparition au scroll (seule animation) */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s, transform 0.55s; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ── Top bar ──────────────────────────────────────────── */
+  header {
+    background: var(--navy-deep);
+    border-bottom: 3px solid var(--ink);
+    padding: 14px 0;
+  }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand img {
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 3px solid var(--ink); background: var(--cream);
+    box-shadow: 3px 3px 0 0 var(--ink);
+  }
+  .brand span { font-family: 'Anton', sans-serif; font-size: 26px; color: var(--yellow); letter-spacing: 1.5px; }
+  .brand small {
+    display: block; font-family: 'Public Sans', sans-serif; font-weight: 800;
+    font-size: 10px; letter-spacing: 2.5px; color: var(--muted-dark);
+  }
+
+  /* ── Bannière d'affiche (Rosie retrousse ses manches) ─── */
+  .hero-banner {
+    position: relative;
+    background: #131c30;
+    border-bottom: 4px solid var(--ink);
+  }
+  .hero-banner img {
+    display: block;
+    width: 100%;
+    max-height: 540px;
+    object-fit: cover;
+    object-position: left center;
+  }
+  .hb-text {
+    position: absolute;
+    top: 50%; right: 5.5%;
+    transform: translateY(-50%);
+    text-align: right;
+  }
+  .hb-title {
+    display: block;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 9vw, 110px);
+    line-height: 1;
+    letter-spacing: 3px;
+    color: var(--yellow);
+    text-shadow: 6px 6px 0 var(--ink);
+  }
+  .hb-tag {
+    display: inline-block;
+    margin-top: 18px;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(13px, 2vw, 21px);
+    letter-spacing: 3px;
+    color: var(--ink);
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 0 var(--ink);
+    padding: 7px 16px;
+  }
+  @media (max-width: 640px) {
+    .hero-banner img { max-height: 300px; object-position: 18% center; }
+    .hb-text { right: 4%; }
+    .hb-title { text-shadow: 4px 4px 0 var(--ink); }
+    .hb-tag { box-shadow: 3px 3px 0 0 var(--ink); padding: 5px 11px; }
+  }
+
+  /* ── Hero ─────────────────────────────────────────────── */
+  .hero { padding: 80px 0 90px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
+  .hero h1 { font-size: clamp(42px, 6vw, 72px); color: var(--cream); }
+  .hero h1 em { font-style: normal; color: var(--yellow); }
+  .hero p.sub { font-size: 18px; margin: 22px 0 20px; max-width: 30em; }
+  .assurances { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 32px; }
+  .assurances span {
+    font-size: 12.5px; font-weight: 800; letter-spacing: 0.6px;
+    text-transform: uppercase; color: var(--yellow);
+  }
+  .hero .rosie-line { display: flex; align-items: center; gap: 12px; margin-top: 30px; }
+  .hero .rosie-line img {
+    width: 54px; height: 54px; border-radius: 50%;
+    border: 3px solid var(--ink); background: var(--cream);
+    box-shadow: 3px 3px 0 0 var(--ink);
+  }
+  .hero .rosie-line b { color: var(--cream); }
+
+  /* ── Téléphone dessiné en CSS ─────────────────────────── */
+  .phone {
+    width: 315px; margin: 0 auto;
+    background: var(--navy);
+    border: 4px solid var(--ink);
+    border-radius: 30px;
+    box-shadow: 8px 8px 0 0 var(--ink);
+    padding: 14px 12px 12px;
+  }
+  .phone .notch {
+    width: 90px; height: 8px; margin: 0 auto 12px;
+    background: var(--ink); border-radius: 4px;
+  }
+  .screen { display: flex; flex-direction: column; gap: 10px; }
+
+  .mini-brand { display: flex; align-items: center; gap: 9px; }
+  .mini-brand img {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--ink); background: var(--cream);
+    box-shadow: 2px 2px 0 0 var(--ink);
+  }
+  .mini-brand b { font-family: 'Anton', sans-serif; font-size: 19px; color: var(--yellow); letter-spacing: 1px; }
+  .mini-brand small { display: block; font-size: 8px; font-weight: 800; letter-spacing: 2px; color: var(--muted-dark); }
+
+  .mini-date { font-size: 11.5px; font-weight: 700; color: var(--muted-dark); }
+
+  .mini-card {
+    background: var(--card); color: var(--slate);
+    border: 3px solid var(--ink); border-radius: 12px;
+    box-shadow: 4px 4px 0 0 var(--ink);
+    padding: 12px;
+  }
+  .mini-card h4 { font-family: 'Public Sans', sans-serif; font-weight: 800; font-size: 15px; color: var(--ink); }
+  .mini-card .dish {
+    width: 100%; height: 118px; object-fit: cover;
+    border: 2px solid var(--ink); border-radius: 9px; margin: 9px 0 8px;
+  }
+  .mini-card .dish-name { font-weight: 800; font-size: 14.5px; }
+  .mini-card .chips { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
+  .mini-card .chip { font-size: 9px; padding: 2px 7px; box-shadow: none; }
+
+  .mini-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--navy-panel);
+    border: 2px solid var(--ink); border-radius: 10px;
+    box-shadow: 3px 3px 0 0 var(--ink);
+    padding: 9px 11px;
+    font-size: 12px; font-weight: 700; color: var(--on-dark);
+  }
+  .mini-row b { color: var(--yellow); font-weight: 800; }
+
+  .mini-tabs {
+    display: flex; justify-content: space-around;
+    background: var(--navy-deep);
+    border: 2px solid var(--ink); border-radius: 11px;
+    padding: 8px 6px; margin-top: 2px;
+  }
+  .mini-tabs span { font-size: 8.5px; font-weight: 800; letter-spacing: 1px; color: var(--muted-dark); }
+  .mini-tabs span.on { color: var(--yellow); }
+
+  /* ── Sections claires / sombres ───────────────────────── */
+  .light { background: var(--cream); color: var(--slate); }
+  .light h2 { color: var(--ink); }
+  .dark-panel { background: var(--navy-panel); }
+
+  .kicker {
+    font-weight: 800; font-size: 12px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--rust);
+    margin-bottom: 12px;
+  }
+  .dark .kicker, .dark-panel .kicker { color: var(--yellow); }
+  h2 { font-size: clamp(30px, 4.2vw, 46px); margin-bottom: 14px; }
+  .lead { font-size: 17px; max-width: 38em; }
+
+  /* ── Problème ─────────────────────────────────────────── */
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 40px; }
+  .pain {
+    background: var(--card); color: var(--slate);
+    padding: 20px;
+  }
+  .pain .big { font-family: 'Anton', sans-serif; font-size: 30px; color: var(--rust); display: block; margin-bottom: 6px; }
+  .pain p { font-size: 14.5px; font-weight: 600; }
+
+  /* ── Features ─────────────────────────────────────────── */
+  .feature { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; padding: 46px 0; }
+  .feature:nth-child(even) .f-visual { order: -1; }
+  .feature h3 { font-size: 27px; margin: 10px 0 12px; color: var(--cream); }
+  .light .feature h3 { color: var(--ink); }
+  .feature p { font-size: 16px; }
+  .f-visual { display: flex; justify-content: center; }
+
+  .visual-card {
+    width: 100%; max-width: 400px;
+    background: var(--card); color: var(--slate);
+    padding: 16px;
+  }
+  .visual-card.on-dark { background: var(--navy-deep); color: var(--on-dark); }
+  .visual-card h5 {
+    font-family: 'Public Sans', sans-serif; font-weight: 800;
+    font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 11px; color: var(--taupe);
+  }
+  .visual-card.on-dark h5 { color: var(--muted-dark); }
+  .vstack { display: flex; flex-direction: column; gap: 8px; }
+
+  .list-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--cream);
+    border: 2px solid var(--ink); border-radius: 9px;
+    padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--slate);
+  }
+  .list-item .box {
+    width: 18px; height: 18px; flex: none;
+    border: 2px solid var(--ink); border-radius: 5px; background: var(--card);
+  }
+  .list-item.done { opacity: 0.62; }
+  .list-item.done .box { background: var(--khaki); }
+  .list-item .qty { margin-left: auto; font-weight: 800; color: var(--taupe); font-size: 12px; }
+  .cat-label { font-weight: 800; font-size: 11px; letter-spacing: 1.5px; color: var(--rust); margin: 5px 0 -2px; }
+
+  .day-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--cream); border: 2px solid var(--ink); border-radius: 9px;
+    padding: 8px 11px;
+  }
+  .day-row .d {
+    font-family: 'Anton', sans-serif; font-size: 13px; width: 38px;
+    color: var(--rust);
+  }
+  .day-row .m { font-size: 13px; font-weight: 700; color: var(--slate); }
+  .day-row .chip { margin-left: auto; font-size: 8.5px; padding: 2px 6px; }
+
+  .bubble {
+    background: var(--navy-panel); color: var(--on-dark);
+    border: 2px solid var(--ink); border-radius: 12px;
+    box-shadow: 3px 3px 0 0 var(--ink);
+    padding: 11px 13px; font-size: 13.5px; font-weight: 600;
+  }
+  .bubble.user {
+    background: var(--yellow); color: var(--ink);
+    margin-left: 34px; font-weight: 700;
+  }
+  .bubble.rosie { margin-right: 34px; display: flex; gap: 10px; align-items: flex-start; }
+  .bubble.rosie img {
+    width: 30px; height: 30px; flex: none; border-radius: 50%;
+    border: 2px solid var(--ink); background: var(--cream);
+  }
+
+  .suggestion {
+    display: flex; gap: 11px; align-items: center;
+    background: var(--cream); border: 2px solid var(--ink); border-radius: 10px;
+    box-shadow: 3px 3px 0 0 var(--ink);
+    padding: 10px;
+  }
+  .suggestion img { width: 58px; height: 58px; object-fit: cover; border: 2px solid var(--ink); border-radius: 8px; }
+  .suggestion .t { font-weight: 800; font-size: 13.5px; color: var(--ink); }
+  .suggestion .s { font-size: 11.5px; font-weight: 600; color: var(--taupe); }
+
+  .stepper { display: inline-flex; align-items: center; gap: 12px; margin-top: 9px; }
+  .stepper b {
+    width: 30px; height: 30px; display: grid; place-items: center;
+    background: var(--yellow); border: 2px solid var(--ink); border-radius: 8px;
+    box-shadow: 2px 2px 0 0 var(--ink);
+    font-size: 17px; color: var(--ink);
+  }
+  .stepper span { font-weight: 800; font-size: 14px; color: var(--slate); }
+
+  .star { color: var(--yellow); font-size: 21px; text-shadow: 1.5px 1.5px 0 var(--ink); }
+
+  /* ── Piliers ──────────────────────────────────────────── */
+  .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; margin-top: 42px; }
+  .pillar { background: var(--navy-deep); padding: 26px 22px; color: var(--on-dark); }
+  .pillar .num { font-family: 'Anton', sans-serif; font-size: 15px; color: var(--yellow); letter-spacing: 2px; }
+  .pillar h3 { font-size: 21px; color: var(--cream); margin: 9px 0 10px; }
+  .pillar p { font-size: 14.5px; }
+
+  /* ── Drive de circuit court ───────────────────────────── */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 42px; }
+  .step { background: var(--navy-deep); color: var(--on-dark); padding: 24px 20px; position: relative; }
+  .step .n {
+    font-family: 'Anton', sans-serif; font-size: 34px; color: var(--yellow);
+    text-shadow: 3px 3px 0 var(--ink);
+  }
+  .step h3 { font-size: 19px; color: var(--cream); margin: 10px 0 9px; }
+  .step p { font-size: 14px; }
+  .soon {
+    display: inline-block; margin-bottom: 14px;
+    background: var(--pale-blue); color: var(--ink);
+    font-weight: 800; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    border: 2px solid var(--ink); border-radius: 7px; padding: 4px 11px;
+  }
+  .network-punch {
+    margin-top: 34px;
+    background: var(--yellow); color: var(--ink);
+    font-weight: 800; font-size: 15px;
+    padding: 16px 20px;
+    max-width: 46em;
+  }
+
+  /* Workflow QR : côté cliente / côté commerçant */
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: stretch;
+    margin-top: 46px;
+  }
+  .flow-arrow {
+    align-self: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--ink);
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 9px;
+    box-shadow: 3px 3px 0 0 var(--ink);
+    padding: 9px 13px;
+    text-align: center;
+    max-width: 150px;
+  }
+  .qr-wrap {
+    display: flex; gap: 13px; align-items: center;
+    background: var(--cream);
+    border: 2px solid var(--ink); border-radius: 10px;
+    padding: 11px;
+    margin-bottom: 10px;
+  }
+  .qr-wrap svg { flex: none; border: 2px solid var(--ink); border-radius: 6px; background: #fff; }
+  .qr-wrap p { font-size: 12.5px; font-weight: 700; color: var(--slate); line-height: 1.4; }
+  .order-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--cream);
+    border: 2px solid var(--ink); border-radius: 9px;
+    padding: 9px 11px;
+  }
+  .order-row .who { font-weight: 800; font-size: 13px; color: var(--ink); }
+  .order-row .what { font-size: 11.5px; font-weight: 600; color: var(--taupe); }
+  .order-row .chip { margin-left: auto; font-size: 8.5px; padding: 3px 7px; flex: none; }
+  .recur {
+    display: inline-block;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+    color: var(--khaki);
+  }
+  .flow-foot {
+    margin-top: 10px;
+    font-size: 11.5px; font-weight: 800; letter-spacing: 0.6px;
+    text-transform: uppercase; color: var(--taupe);
+    text-align: center;
+  }
+  @media (max-width: 860px) {
+    .flow { grid-template-columns: 1fr; }
+    .flow-arrow { max-width: none; justify-self: center; }
+  }
+
+  /* ── Les faits (dossier sourcé) ───────────────────────── */
+  .facts {
+    margin-top: 44px;
+    background: var(--cream); color: var(--slate);
+    padding: 28px 26px;
+  }
+  .facts h3 { font-size: 23px; color: var(--ink); margin-bottom: 6px; }
+  .facts .sub { font-size: 13px; font-weight: 700; color: var(--taupe); margin-bottom: 18px; }
+  .fact { display: flex; gap: 14px; padding: 13px 0; border-top: 2px dashed rgba(16,21,30,0.16); }
+  .fact .fn {
+    font-family: 'Anton', sans-serif; font-size: 17px; color: var(--rust);
+    flex: none; width: 26px;
+  }
+  .fact p { font-size: 14.5px; font-weight: 600; }
+  .fact a { color: var(--rust); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--rust); font-size: 12.5px; white-space: nowrap; }
+  .verdict {
+    margin-top: 18px;
+    background: var(--ink); color: var(--cream);
+    padding: 15px 18px;
+    font-size: 14.5px; font-weight: 700;
+    border-radius: 9px;
+  }
+  .verdict b { color: var(--yellow); }
+  .facts.ours { margin-top: 26px; border-left: 6px solid var(--khaki); }
+  .facts.ours .fn { color: var(--khaki); }
+  .facts.ours .fact a { color: var(--khaki); border-bottom-color: var(--khaki); }
+
+  /* ── Modèle ───────────────────────────────────────────── */
+  .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 26px; margin-top: 42px; }
+  .price .tag {
+    display: inline-block; margin-bottom: 10px;
+    font-size: 10.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    border: 2px solid var(--ink); border-radius: 7px; padding: 3px 9px;
+  }
+  .price { background: var(--card); padding: 26px 24px; color: var(--slate); }
+  .price .tier { font-family: 'Anton', sans-serif; font-size: 23px; color: var(--ink); }
+  .price .amount { font-family: 'Anton', sans-serif; font-size: 38px; color: var(--rust); margin: 8px 0 14px; }
+  .price .amount small { font-family: 'Public Sans', sans-serif; font-size: 13px; font-weight: 700; color: var(--taupe); }
+  .price ul { list-style: none; }
+  .price li { font-size: 14.5px; font-weight: 600; padding: 6px 0; border-bottom: 2px dashed rgba(16,21,30,0.14); }
+  .price li::before { content: '✔'; color: var(--khaki); font-weight: 800; margin-right: 9px; }
+  .no-ads {
+    margin-top: 30px; display: inline-block;
+    background: var(--red); color: var(--cream);
+    font-weight: 800; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 10px 18px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────── */
+  footer {
+    background: var(--navy-deep);
+    border-top: 3px solid var(--ink);
+    padding: 44px 0;
+    text-align: center;
+  }
+  footer p { font-size: 15px; max-width: 34em; margin: 0 auto 18px; }
+  footer .links { display: flex; gap: 22px; justify-content: center; }
+  footer a { color: var(--yellow); font-weight: 800; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--yellow); padding-bottom: 2px; }
+
+  /* ── Responsive ───────────────────────────────────────── */
+  @media (max-width: 860px) {
+    section { padding: 54px 0; }
+    .hero { padding: 54px 0 64px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
+    .feature { grid-template-columns: 1fr; gap: 30px; padding: 34px 0; }
+    .feature:nth-child(even) .f-visual { order: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <img src="assets/rosie-avatar.png" alt="Rosie" />
+      <span>ELLY FRESH<small>ON PEUT LE FAIRE !</small></span>
+    </a>
+    <a class="btn" style="font-size:13px; padding:9px 18px;" href="#features">Découvrir</a>
+  </div>
+</header>
+
+<!-- ── BANNIÈRE D'AFFICHE ───────────────────────────────── -->
+<div class="hero-banner" id="top">
+  <img src="assets/hero-rosie.webp" alt="Rosie retrousse ses manches dans sa cuisine-atelier" />
+  <div class="hb-text">
+    <span class="hb-title">ELLY<br />FRESH</span>
+    <span class="hb-tag">ON PEUT LE FAIRE !</span>
+  </div>
+</div>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<section class="hero dark">
+  <div class="wrap">
+    <div>
+      <h1>Les repas de la semaine, <em>sans y penser.</em></h1>
+      <p class="sub">
+        Recettes, planning des 4 repas, liste de courses automatique, stock
+        maison et congélateur — et <b style="color:var(--cream)">Rosie</b>, une
+        assistante à qui on parle, tout simplement.
+      </p>
+      <div class="assurances">
+        <span>✔ Sans pub</span>
+        <span>✔ Sans marques sponsorisées</span>
+        <span>✔ Fonctionne hors ligne</span>
+      </div>
+      <a class="btn" href="#features">Découvrir l'app</a>
+      <div class="rosie-line">
+        <img src="assets/rosie-avatar.png" alt="Rosie, la mascotte d'Elly Fresh" />
+        <p style="font-size:14.5px; max-width:26em;">
+          Née d'un besoin réel : <b>Elly</b>, maman de 3 enfants avec un travail
+          à temps plein, qui gère seule les repas et les courses.
+        </p>
+      </div>
+    </div>
+    <div class="f-visual reveal">
+      <!-- Écran d'accueil recréé (remplaçable par screenshot-accueil.png) -->
+      <div class="phone" id="screenshot-accueil">
+        <div class="notch"></div>
+        <div class="screen">
+          <div class="mini-brand">
+            <img src="assets/rosie-avatar.png" alt="" />
+            <b>ELLY FRESH<small>ON PEUT LE FAIRE !</small></b>
+          </div>
+          <div class="mini-date">MARDI 7 JUILLET</div>
+          <div class="mini-card brackets" style="color:var(--ink)">
+            <h4>Ce soir on mange</h4>
+            <img class="dish" src="assets/base-02.webp" alt="Spaghettis bolognaise" />
+            <div class="dish-name">Spaghettis bolognaise</div>
+            <div class="chips">
+              <span class="chip">25 min</span>
+              <span class="chip blue">Les enfants adorent</span>
+            </div>
+          </div>
+          <div class="mini-row"><span>🧺 Stock maison</span><b>23 produits</b></div>
+          <div class="mini-row"><span>🛒 Liste de courses</span><b>7/26</b></div>
+          <div class="mini-tabs">
+            <span class="on">AUJOURD'HUI</span><span>SEMAINE</span><span>LISTE</span><span>RECETTES</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LE PROBLÈME ──────────────────────────────────────── -->
+<section class="light">
+  <div class="wrap">
+    <p class="kicker">Le problème</p>
+    <h2>« Qu'est-ce qu'on mange ce soir ? »</h2>
+    <p class="lead">
+      Cette question revient 4 fois par jour, 365 jours par an. Et derrière
+      elle : les courses, le stock qu'on ne connaît plus, les légumes qui
+      finissent à la poubelle, les enfants qui « n'aiment pas ça ».
+    </p>
+    <div class="pain-grid">
+      <div class="pain hard-sm reveal">
+        <span class="big">×&nbsp;1&nbsp;460</span>
+        <p>C'est le nombre de fois où la question tombe chaque année, pour 4 repas par jour. Elly Fresh y répond une fois par semaine : le dimanche, en 10 minutes.</p>
+      </div>
+      <div class="pain hard-sm reveal">
+        <span class="big">Le gaspillage</span>
+        <p>On rachète ce qu'on a déjà, on oublie ce qui traîne au frigo. L'app connaît ton stock et propose d'abord des recettes avec ce que tu as.</p>
+      </div>
+      <div class="pain hard-sm reveal">
+        <span class="big">La charge mentale</span>
+        <p>Planifier, lister, vérifier les placards, penser aux allergies… Ce travail invisible repose souvent sur une seule personne. Plus maintenant.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ─────────────────────────────────────────── -->
+<section class="dark" id="features">
+  <div class="wrap">
+    <p class="kicker">Ce que fait l'app</p>
+    <h2 style="color:var(--cream)">Six gestes qui changent la semaine</h2>
+
+    <!-- 1. Rosie vocale -->
+    <div class="feature">
+      <div>
+        <span class="chip">Assistante vocale</span>
+        <h3>Rosie t'écoute, puis elle s'occupe de tout</h3>
+        <p>
+          Raconte-lui ton petit-déj familial en un vocal : elle crée la recette
+          et remplit les 7 matins de la semaine. Demande-lui « un truc rapide
+          avec ce qu'il y a dans le frigo » : elle répond toujours par des
+          actions, jamais par du blabla.
+        </p>
+      </div>
+      <div class="f-visual reveal">
+        <div class="visual-card on-dark hard" id="screenshot-assistant">
+          <h5>« Dis-moi tout »</h5>
+          <div class="vstack">
+            <div class="bubble user">« Le matin on prend du pain beurré, des céréales et un jus d'orange, mets-le toute la semaine »</div>
+            <div class="bubble rosie">
+              <img src="assets/rosie-avatar.png" alt="" />
+              <span>C'est noté ! J'ai créé « Petit-déj de la famille » et rempli les 7 matins. On peut le faire !</span>
+            </div>
+            <div class="suggestion">
+              <img src="assets/petit-dej.webp" alt="Plateau de petit-déjeuner" />
+              <div><div class="t">Petit-déj de la famille</div><div class="s">Planifié lun. → dim. · 10 min</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Semaine auto -->
+    <div class="feature">
+      <div>
+        <span class="chip blue">Planning</span>
+        <h3>La semaine en automatique</h3>
+        <p>
+          L'IA planifie petit-déj, déjeuner, dîner et goûter selon les goûts,
+          les allergies et le budget de la famille — jamais selon un annonceur.
+          Chaque repas reste modifiable en un tap, et les favoris ⭐ reviennent
+          régulièrement.
+        </p>
+      </div>
+      <div class="f-visual reveal">
+        <div class="visual-card hard" id="screenshot-semaine">
+          <h5>Semaine · Soir</h5>
+          <div class="vstack">
+            <div class="day-row"><span class="d">LUN</span><span class="m">Spaghettis bolognaise</span><span class="chip">⭐</span></div>
+            <div class="day-row"><span class="d">MAR</span><span class="m">Poisson pané, riz, brocolis</span></div>
+            <div class="day-row"><span class="d">MER</span><span class="m">Grosse soupe maison</span><span class="chip khaki">×2 congélo</span></div>
+            <div class="day-row"><span class="d">JEU</span><span class="m">Curry de poulet coco</span></div>
+            <div class="day-row"><span class="d">VEN</span><span class="m">Pizza maison</span><span class="chip blue">rituel</span></div>
+            <div style="margin-top:6px">
+              <div class="cat-label" style="margin-bottom:6px">ÉQUILIBRE : 5/7 EN A-B</div>
+              <div class="gauge"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Liste de courses -->
+    <div class="feature">
+      <div>
+        <span class="chip rust">Courses</span>
+        <h3>La liste qui s'écrit toute seule</h3>
+        <p>
+          Les ingrédients de la semaine, fusionnés (400 g + 200 g = 600 g),
+          rangés par rayon, avec les quantités. Au magasin, on coche ; à la
+          maison, « Range les courses » envoie tout dans le stock. Et personne
+          n'y glisse de produits « suggérés » pour gonfler le panier.
+        </p>
+      </div>
+      <div class="f-visual reveal">
+        <div class="visual-card hard" id="screenshot-liste">
+          <h5>Liste de courses · 7/26</h5>
+          <div class="vstack">
+            <div class="cat-label">🥛 CRÈMERIE</div>
+            <div class="list-item done"><span class="box"></span>Beurre doux<span class="qty">250 g</span></div>
+            <div class="list-item"><span class="box"></span>Lait demi-écrémé<span class="qty">6 L</span></div>
+            <div class="cat-label">🥩 BOUCHERIE</div>
+            <div class="list-item"><span class="box"></span>Bœuf haché<span class="qty">800 g</span></div>
+            <div class="list-item"><span class="box"></span>Poulet fermier entier<span class="qty">×1</span></div>
+            <div class="cat-label">🥕 FRUITS &amp; LÉGUMES</div>
+            <div class="list-item done"><span class="box"></span>Bananes<span class="qty">×6</span></div>
+            <div class="list-item"><span class="box"></span>Tomates à farcir<span class="qty">×8</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Stock -->
+    <div class="feature">
+      <div>
+        <span class="chip khaki">Stock maison</span>
+        <h3>Tes placards, sans inventaire</h3>
+        <p>
+          Dicte tes placards à la voix ou scanne ton ticket de caisse : Rosie
+          remplit le stock. Ensuite, elle propose d'abord des recettes avec ce
+          que tu as déjà — anti-gaspillage, anti « on recommande des pâtes ».
+        </p>
+      </div>
+      <div class="f-visual reveal">
+        <div class="visual-card on-dark hard" id="screenshot-stock">
+          <h5>Stock maison · dictée vocale</h5>
+          <div class="vstack">
+            <div class="bubble user">« Il me reste 3 courgettes, un kilo de riz, des lardons et 4 boîtes de thon »</div>
+            <div class="list-item"><span class="box" style="background:var(--khaki)"></span>Courgettes<span class="qty">×3</span></div>
+            <div class="list-item"><span class="box" style="background:var(--khaki)"></span>Riz basmati<span class="qty">1 kg</span></div>
+            <div class="list-item"><span class="box" style="background:var(--khaki)"></span>Lardons<span class="qty">200 g</span></div>
+            <div class="list-item"><span class="box" style="background:var(--khaki)"></span>Thon en boîte<span class="qty">×4</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Je n'ai pas d'idée -->
+    <div class="feature">
+      <div>
+        <span class="chip">SOS dîner</span>
+        <h3>« Je n'ai pas d'idée ! »</h3>
+        <p>
+          Trois suggestions immédiates basées sur ton stock réel et ton
+          congélateur — dont des recettes inventées sur mesure quand rien du
+          catalogue ne colle. On te fait d'abord utiliser ce que tu as,
+          pas racheter.
+        </p>
+      </div>
+      <div class="f-visual reveal">
+        <div class="visual-card hard" id="screenshot-idees">
+          <h5>3 idées avec ton stock</h5>
+          <div class="vstack">
+            <div class="suggestion">
+              <img src="assets/base-01.webp" alt="" />
+              <div><div class="t">Gratin de gnocchis tomate-mozza</div><div class="s">Tout est au stock · 30 min</div></div>
+            </div>
+            <div class="suggestion">
+              <img src="assets/base-04.webp" alt="" />
+              <div><div class="t">Risotto courgettes-lardons</div><div class="s"><span class="chip rust" style="font-size:8px">Nouvelle recette</span> inventée pour toi</div></div>
+            </div>
+            <div class="suggestion">
+              <img src="assets/base-02.webp" alt="" />
+              <div><div class="t">Bolognaise du congélo</div><div class="s">4 portions prêtes · 10 min</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Tes recettes -->
+    <div class="feature">
+      <div>
+        <span class="chip blue">Tes recettes</span>
+        <h3>Tes recettes à toi, pas notre catalogue</h3>
+        <p>
+          Importe une fiche HelloFresh en photo, modifie les ingrédients
+          (guanciale ou lardons, chacun ses goûts), ajuste le nombre de
+          convives — les quantités se recalculent toutes seules. Ici, la vraie
+          carbonara romaine : sans crème, évidemment.
+        </p>
+      </div>
+      <div class="f-visual reveal">
+        <div class="visual-card hard" id="screenshot-recette">
+          <h5>Fiche recette</h5>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:9px">
+            <b style="font-size:16px; color:var(--ink)">Spaghetti alla carbonara</b>
+            <span class="star">★</span>
+          </div>
+          <img src="assets/carbonara.webp" alt="Spaghetti alla carbonara" style="width:100%; height:120px; object-fit:cover; border:2px solid var(--ink); border-radius:9px" />
+          <div class="stepper">
+            <b>−</b><span>6 convives</span><b>+</b>
+          </div>
+          <div class="vstack" style="margin-top:10px">
+            <div class="list-item"><span>Spaghetti</span><span class="qty">600 g</span></div>
+            <div class="list-item"><span>Guanciale <s style="opacity:0.45">lardons</s></span><span class="qty">300 g</span></div>
+            <div class="list-item"><span>Jaunes d'œufs</span><span class="qty">6</span></div>
+            <div class="list-item"><span>Pecorino romano</span><span class="qty">120 g</span></div>
+            <div class="list-item"><span>Poivre noir du moulin</span><span class="qty">au goût</span></div>
+          </div>
+          <div style="margin-top:9px; font-size:11.5px; font-weight:700; color:var(--taupe)">
+            La romaine authentique : le pecorino et les jaunes font la crème — on n'en ajoute pas.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LA DIFFÉRENCE ────────────────────────────────────── -->
+<section class="dark-panel">
+  <div class="wrap">
+    <p class="kicker">La différence</p>
+    <h2 style="color:var(--cream)">Construit pour ta famille, pas pour ton panier</h2>
+    <div class="pillars">
+      <div class="pillar hard brackets reveal">
+        <span class="num">N° 1</span>
+        <h3>Aucune marque sponsorisée</h3>
+        <p>
+          Nos suggestions ne sont jamais influencées par un annonceur. Notre
+          revenu ne dépend pas de la taille de ton panier — on te pousse
+          d'abord à utiliser ce que tu as déjà.
+        </p>
+      </div>
+      <div class="pillar hard brackets reveal">
+        <span class="num">N° 2</span>
+        <h3>Des données publiques et sérieuses</h3>
+        <p>
+          Chaque plat est analysé avec la table Ciqual 2025 de l'ANSES
+          (3 341 aliments embarqués) et le Nutri-Score officiel de Santé
+          publique France, calculés dans l'app — pas des chiffres inventés.
+          Sources plus bas.
+        </p>
+      </div>
+      <div class="pillar hard brackets reveal">
+        <span class="num">N° 3</span>
+        <h3>Tes données restent chez toi</h3>
+        <p>
+          L'app fonctionne sans réseau, la synchronisation est limitée à ton
+          foyer, rien n'est revendu. Jamais.
+        </p>
+      </div>
+    </div>
+
+    <div class="facts hard reveal">
+      <h3>Les apps de menus « gratuites » : qui paie vraiment ?</h3>
+      <p class="sub">
+        Rien de caché ni d'illégal — c'est un modèle assumé publiquement par
+        ses acteurs. Les faits, sourcés :
+      </p>
+      <div class="fact">
+        <span class="fn">01</span>
+        <p>
+          Le leader français du menu automatique, Jow, se rémunère en
+          « apporteur d'affaires » : une commission est versée par l'enseigne
+          sur les ventes réalisées via l'app. Son revenu grandit donc avec ton
+          panier. &nbsp;<a href="https://entrepreneurs.lesechos.fr/creation-entreprise/aides-financements/apres-monoprix-jow-prepare-de-nouveaux-partenariats-pour-grandir-1995606" target="_blank" rel="noopener">Les Échos</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">02</span>
+        <p>
+          Deuxième pilier : les « recettes sponsorisées », où des marques
+          paient pour être l'ingrédient proposé (exemple cité dans la presse :
+          une sauce au yaourt avec Danone). Le dirigeant décrit trois sources
+          de revenus « à peu près équilibrées en trois tiers » — commissions,
+          publicité, frais de service de 0,99 € par commande.
+          &nbsp;<a href="https://www.journaldunet.com/retail/1528101-hellofresh-jow-les-commis-le-panier-repas-continue-de-faire-des-adeptes/" target="_blank" rel="noopener">JDN</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">03</span>
+        <p>
+          Cette régie publicitaire s'étend : « depuis plus de trois ans,
+          l'application de menus propose aux marques de booster leurs ventes
+          via des recettes sponsorisées », et déploie désormais son offre
+          publicitaire jusque dans les drives des enseignes.
+          &nbsp;<a href="https://www.lineaires.com/la-distribution/retail-media-jow-envoie-la-video" target="_blank" rel="noopener">Linéaires</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">04</span>
+        <p>
+          Tu ne choisis pas où tu achètes : « La vocation de Jow n'est pas de
+          permettre à l'utilisateur de choisir son enseigne. Nous n'avons rien
+          à voir avec un comparateur de prix », déclare son cofondateur. Ni
+          comparaison, ni mise en concurrence des prix pour ton budget.
+          &nbsp;<a href="https://entrepreneurs.lesechos.fr/creation-entreprise/aides-financements/apres-monoprix-jow-prepare-de-nouveaux-partenariats-pour-grandir-1995606" target="_blank" rel="noopener">Les Échos</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">05</span>
+        <p>
+          Depuis juin 2026, l'agent IA « Jowzi » gère la commande « de la
+          connexion au paiement final ». Présenté aux annonceurs comme le moyen
+          « de gagner massivement des parts de marché grâce à la mise au panier
+          automatique de leurs produits » : c'est l'agent qui remplit ton
+          caddie, et des marques paient pour y être.
+          &nbsp;<a href="https://www.lineaires.com/index.php/la-distribution/jow-lance-son-agent-de-courses-ia-jowzi" target="_blank" rel="noopener">Linéaires</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">06</span>
+        <p>
+          Le modèle est structurel, pas accidentel : « apporteur d'affaires »
+          rémunéré au pourcentage du panier, adossé aux grandes enseignes
+          (Intermarché, Carrefour, E.Leclerc, Auchan…) et au « shoppable
+          content » — 20 M$ levés pour le déployer.
+          &nbsp;<a href="https://www.mntd.fr/jow-un-nouvel-acteur-du-retail-media-qui-ne-manque-pas-d-appetit-755661/" target="_blank" rel="noopener">Minted</a>
+        </p>
+      </div>
+      <div class="verdict">
+        Notre lecture : quand une app est payée par les enseignes et les
+        marques — jusqu'à la mise au panier automatique de produits sponsorisés
+        par un agent IA — ses suggestions travaillent, mécaniquement, pour son
+        chiffre d'affaires. <b>Elly Fresh est payée par personne d'autre que
+        toi</b> : nos suggestions n'ont qu'un seul client à satisfaire, ta
+        famille. Et ta liste de courses part où TU veux — supermarché ou
+        commerçants de quartier.
+      </div>
+    </div>
+
+    <div class="facts ours hard reveal">
+      <h3>Et nos chiffres à nous, d'où viennent-ils ?</h3>
+      <p class="sub">
+        Même exigence dans l'autre sens : chaque plat de l'app est analysé avec
+        les données publiques des autorités sanitaires françaises. Vérifiable :
+      </p>
+      <div class="fact">
+        <span class="fn">01</span>
+        <p>
+          Chaque recette — les nôtres, les tiennes, celles que Rosie invente —
+          est analysée ingrédient par ingrédient avec la table Ciqual de
+          l'ANSES, l'agence nationale de sécurité sanitaire — l'une des tables
+          de composition les plus complètes d'Europe. Édition 2025 : 3 341
+          aliments embarqués dans l'app, directement sur ton téléphone.
+          &nbsp;<a href="https://www.anses.fr/fr/content/la-table-de-composition-nutritionnelle-du-ciqual" target="_blank" rel="noopener">ANSES</a>
+          &nbsp;<a href="https://ciqual.anses.fr/cms/fr/la-table-ciqual-2025" target="_blank" rel="noopener">Ciqual 2025</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">02</span>
+        <p>
+          Le Nutri-Score affiché sur chaque fiche, chaque liste et chaque
+          semaine est calculé avec le nouvel algorithme officiel — celui de
+          l'arrêté du 14 mars 2025, porté par Santé publique France. Le même
+          que sur les emballages, pas un score maison.
+          &nbsp;<a href="https://www.santepubliquefrance.fr/nutrition-et-activite-physique/nutri-score" target="_blank" rel="noopener">Santé publique France</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">03</span>
+        <p>
+          Le calcul tourne dans ton téléphone, sur des données ouvertes que
+          n'importe qui peut télécharger et vérifier. Et l'IA ne note pas les
+          plats : c'est l'inverse — le score officiel lui sert de contrainte
+          quand elle compose ta semaine.
+          &nbsp;<a href="https://doi.org/10.57745/rdmhwy" target="_blank" rel="noopener">Données ouvertes (Recherche Data Gouv)</a>
+        </p>
+      </div>
+      <div class="fact">
+        <span class="fn">04</span>
+        <p>
+          Les allergies, elles, ne sont jamais confiées à l'IA seule : un
+          garde-fou écrit en dur dans le code filtre tout plat contenant un
+          allergène déclaré, avant et après chaque suggestion.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LE DRIVE DE CIRCUIT COURT ────────────────────────── -->
+<section class="dark">
+  <div class="wrap">
+    <span class="soon">En construction · pilote de quartier</span>
+    <p class="kicker">Et demain</p>
+    <h2 style="color:var(--cream)">Le drive du circuit court</h2>
+    <p class="lead">
+      Ton menu de la semaine devient des paniers réservés — et récurrents —
+      chez les meilleurs commerçants indépendants de ton quartier : primeur,
+      boucher, fromager, AMAP. En direct, sans passer par les grandes
+      enseignes.
+    </p>
+    <div class="steps">
+      <div class="step hard reveal">
+        <span class="n">01</span>
+        <h3>Scanne le QR de ton commerçant</h3>
+        <p>
+          Chez ton primeur, ton boucher ou à l'AMAP : un scan, et il devient
+          ton fournisseur attitré pour son rayon. Pas d'inscription compliquée,
+          pas de matériel — une relation de confiance qui existe déjà,
+          simplement numérisée.
+        </p>
+      </div>
+      <div class="step hard reveal">
+        <span class="n">02</span>
+        <h3>Ta liste se répartit toute seule</h3>
+        <p>
+          Le menu de la semaine génère la liste de courses ; l'app route chaque
+          rayon vers le bon commerçant — les légumes chez le primeur, la viande
+          chez le boucher — et le reste part au supermarché. Personne d'autre
+          ne fait la chaîne menu → liste → commande locale.
+        </p>
+      </div>
+      <div class="step hard reveal">
+        <span class="n">03</span>
+        <h3>Ton panier t'attend</h3>
+        <p>
+          Le commerçant reçoit la commande sur une interface toute simple et
+          répond « prêt jeudi 17 h » en un tap. Tu passes le chercher, tu paies
+          en boutique. Zéro commission — ni pour toi, ni pour lui.
+        </p>
+      </div>
+      <div class="step hard reveal">
+        <span class="n">04</span>
+        <h3>La toile se tisse au bouche-à-oreille</h3>
+        <p>
+          Ton commerçant affiche le QR sur son comptoir, ses clients découvrent
+          l'app, recrutent leurs propres commerçants… Le réseau grandit un
+          quartier à la fois — par la confiance, pas par la pub.
+        </p>
+      </div>
+    </div>
+    <div class="flow">
+      <!-- Côté cliente -->
+      <div class="visual-card hard reveal" id="mockup-client-qr" style="max-width:none">
+        <h5>Côté cliente · « Mes commerçants »</h5>
+        <div class="qr-wrap">
+          <svg width="74" height="74" viewBox="0 0 29 29" shape-rendering="crispEdges">
+            <rect width="29" height="29" fill="#fff"/>
+            <g fill="#10151E">
+              <path d="M1 1h7v7H1z"/><rect x="3" y="3" width="3" height="3" fill="#fff" stroke="none"/>
+              <path d="M21 1h7v7h-7z"/><rect x="23" y="3" width="3" height="3" fill="#fff"/>
+              <path d="M1 21h7v7H1z"/><rect x="3" y="23" width="3" height="3" fill="#fff"/>
+              <path d="M10 1h2v2h-2zM14 1h2v3h-2zM17 2h2v2h-2zM10 4h3v2h-3zM15 5h4v2h-4zM10 7h2v3h-2zM13 8h3v2h-3zM1 10h2v3H1zM4 11h3v2H4zM8 10h2v2H8zM11 11h3v3h-3zM16 10h2v2h-2zM19 11h3v2h-3zM24 10h2v3h-2zM27 11h1v3h-1zM2 14h3v2H2zM6 15h3v2H6zM10 15h2v3h-2zM14 14h2v2h-2zM17 15h3v2h-3zM22 14h2v3h-2zM26 15h2v2h-2zM1 18h3v2H1zM5 18h2v2H5zM13 17h2v3h-2zM16 18h3v2h-3zM21 18h2v2h-2zM25 18h3v2h-3zM10 21h3v2h-3zM14 22h2v2h-2zM17 21h2v3h-2zM21 22h3v2h-3zM26 21h2v3h-2zM10 24h2v3h-2zM13 25h3v2h-3zM17 25h2v3h-2zM20 25h3v2h-3zM25 25h2v2h-2z"/>
+            </g>
+          </svg>
+          <p>Fais scanner ce code à ton commerçant : il devient ton fournisseur attitré. 30 secondes, en boutique.</p>
+        </div>
+        <div class="vstack">
+          <div class="order-row">
+            <span>🥕</span>
+            <div><div class="who">Légumes — Chez Marco, primeur</div><div class="what">panier hebdo <span class="recur">↻ récurrent · jeudi</span></div></div>
+            <span class="chip khaki">✓ appairé</span>
+          </div>
+          <div class="order-row">
+            <span>🥩</span>
+            <div><div class="who">Viande — Boucherie Fontaine</div><div class="what">commande à la demande</div></div>
+            <span class="chip khaki">✓ appairé</span>
+          </div>
+          <div class="order-row" style="opacity:0.75">
+            <span>🧀</span>
+            <div><div class="who">Fromage — à appairer</div><div class="what">le reste part au supermarché</div></div>
+            <span class="chip">+ QR</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-arrow reveal">LA LISTE ROUTE CHAQUE RAYON →</div>
+
+      <!-- Côté commerçant -->
+      <div class="visual-card hard reveal" id="mockup-commercant" style="max-width:none">
+        <h5>Côté commerçant · interface web, zéro installation</h5>
+        <div class="vstack">
+          <div class="order-row">
+            <div><div class="who">Famille d'Elly</div><div class="what">panier légumes semaine · 23,40 € <span class="recur">↻ récurrent</span></div></div>
+            <span class="chip">PRÊT JEU. 17 H</span>
+          </div>
+          <div class="order-row">
+            <div><div class="who">Famille Diallo</div><div class="what">panier légumes semaine · 19,80 € <span class="recur">↻ récurrent</span></div></div>
+            <span class="chip">PRÊT JEU. 17 H</span>
+          </div>
+          <div class="order-row">
+            <div><div class="who">Famille Morel</div><div class="what">1er panier · 26,10 € — nouvelle cliente via ton QR</div></div>
+            <span class="chip rust">À CONFIRMER</span>
+          </div>
+        </div>
+        <div class="flow-foot">14 paniers réservés cette semaine · payés en boutique · 0 % commission</div>
+      </div>
+    </div>
+
+    <div class="network-punch hard-sm reveal">
+      Les plateformes de livraison prennent jusqu'à 30 % aux commerçants.
+      Nous : 0 %. Le circuit court mérite mieux qu'une commission.
+    </div>
+  </div>
+</section>
+
+<!-- ── LE MODÈLE ────────────────────────────────────────── -->
+<section class="light">
+  <div class="wrap">
+    <p class="kicker">Le modèle</p>
+    <h2>Gratuit pour l'essentiel, honnête pour le reste</h2>
+    <p class="lead">
+      Tout ce qui marche sans serveur reste gratuit, pour toujours. Les
+      abonnements sont calibrés sur nos coûts réels — l'IA et la synchro —
+      pas sur ce que le marché « supporterait ».
+    </p>
+    <div class="price-grid">
+      <div class="price hard reveal">
+        <span class="tag" style="background:var(--card)">Pour toujours</span>
+        <div class="tier">Gratuit</div>
+        <div class="amount">0 €</div>
+        <ul>
+          <li>Recettes, planning 4 repas, liste, stock, congélo — tout, sans réseau</li>
+          <li>15 actions Rosie / mois pour essayer</li>
+          <li>Sur un téléphone, sans compte obligatoire</li>
+        </ul>
+      </div>
+      <div class="price hard reveal" style="border-color:var(--rust); box-shadow:6px 6px 0 0 var(--rust)">
+        <span class="tag" style="background:var(--yellow)">L'app complète</span>
+        <div class="tier">Premium</div>
+        <div class="amount">5 € <small>/ mois</small></div>
+        <ul>
+          <li>300 actions Rosie / mois — vocal, idées, imports, scan de ticket (une famille très active en fait ~60)</li>
+          <li>Synchro du foyer multi-téléphones</li>
+          <li>Analyses santé complètes de la semaine</li>
+          <li>Mes commerçants &amp; paniers récurrents</li>
+          <li>15 illustrations de plats / mois</li>
+        </ul>
+      </div>
+      <div class="price hard reveal" style="border-color:var(--red); box-shadow:6px 6px 0 0 var(--red)">
+        <span class="tag" style="background:var(--red); color:var(--cream)">Zéro compteur</span>
+        <div class="tier" style="color:var(--red)">Rubis</div>
+        <div class="amount">10 € <small>/ mois</small></div>
+        <ul>
+          <li>Tout Premium, sans aucun quota (usage personnel)</li>
+          <li>Illustration générée pour chaque recette, automatiquement</li>
+          <li>Un second foyer offert (les grands-parents, la garde alternée)</li>
+          <li>Avant-premières &amp; ligne directe avec l'équipe</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:18px; font-size:13.5px; font-weight:700; color:var(--taupe)">
+      En annuel : 2 mois offerts (50 € et 100 € / an). Les quotas existent pour
+      une seule raison : que l'abonnement couvre toujours ce que ton usage nous
+      coûte — jamais pour te pousser vers le palier suivant.
+    </p>
+    <div class="no-ads hard-sm reveal">Pas de pub. Jamais.</div>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <p>
+      Créé avec ❤ pour Elly et toutes celles et ceux qui portent la charge
+      mentale des repas.
+    </p>
+    <div class="links">
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:contact@ellyfresh.app">Contact</a>
+      <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Seule animation autorisée : apparition des sections au scroll.
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('in')),
+    { threshold: 0.15 },
+  );
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
+</body>
+</html>
