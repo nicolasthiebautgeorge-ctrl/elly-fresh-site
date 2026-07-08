@@ -152,7 +152,9 @@
     width: 100%;
     max-height: 540px;
     object-fit: cover;
-    object-position: left center;
+    /* Sur écran large la bannière est moins haute que l'image : point focal
+       proche du haut pour ne jamais couper le visage de Rosie. */
+    object-position: left 15%;
   }
   .hb-text {
     position: absolute;
@@ -183,7 +185,7 @@
     padding: 7px 16px;
   }
   @media (max-width: 640px) {
-    .hero-banner img { max-height: 300px; object-position: 18% center; }
+    .hero-banner img { max-height: 300px; object-position: 18% 15%; }
     .hb-text { right: 4%; }
     .hb-title { text-shadow: 4px 4px 0 var(--ink); }
     .hb-tag { box-shadow: 3px 3px 0 0 var(--ink); padding: 5px 11px; }
