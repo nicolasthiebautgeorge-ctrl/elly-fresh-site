@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Politique de confidentialité — Elly Fresh</title>
+<meta name="description" content="Politique de confidentialité de l'application Elly Fresh : local-first, sans publicité, sans vente de données." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #1B2A4A; --navy-deep: #10151E; --cream: #F4EDDE; --card: #FDFAF3;
+    --ink: #10151E; --yellow: #F2B705; --rust: #C75B12; --khaki: #5B6836;
+    --slate: #2E3440; --taupe: #6E6658;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--slate); font-family: 'Public Sans', sans-serif; line-height: 1.65; }
+  header {
+    background: var(--navy-deep); border-bottom: 3px solid var(--ink);
+    padding: 18px 0;
+  }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 22px; }
+  .brand { font-family: 'Anton', sans-serif; color: var(--yellow); font-size: 20px; letter-spacing: 2px; text-decoration: none; }
+  header a.back { color: var(--cream); font-size: 13px; font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--yellow); padding-bottom: 2px; }
+  main { padding: 52px 0 80px; }
+  h1 { font-family: 'Anton', sans-serif; font-size: clamp(30px, 5vw, 44px); color: var(--ink); line-height: 1.1; margin-bottom: 10px; }
+  .updated { font-size: 13px; font-weight: 700; color: var(--taupe); margin-bottom: 34px; }
+  h2 { font-family: 'Anton', sans-serif; font-size: 21px; color: var(--ink); margin: 36px 0 10px; }
+  p, li { font-size: 15.5px; margin-bottom: 10px; }
+  ul { padding-left: 22px; margin-bottom: 12px; }
+  a { color: var(--rust); font-weight: 700; }
+  .tldr {
+    background: var(--card); border: 3px solid var(--ink); border-radius: 12px;
+    box-shadow: 6px 6px 0 0 var(--ink);
+    padding: 20px 22px; margin-bottom: 36px;
+  }
+  .tldr b { color: var(--ink); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="./">ELLY FRESH</a>
+    <a class="back" href="./">← Retour au site</a>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <h1>Politique de confidentialité</h1>
+    <p class="updated">Application mobile Elly Fresh · Dernière mise à jour : 8 juillet 2026</p>
+
+    <div class="tldr">
+      <b>En résumé :</b> Elly Fresh est une application <b>local-first</b> — tes
+      données vivent d'abord sur ton téléphone. Pas de publicité, pas de marque
+      sponsorisée, pas de revente de données, pas de traceurs publicitaires.
+      Le compte est optionnel et ne sert qu'à synchroniser ton foyer.
+    </div>
+
+    <h2>1. Qui est responsable ?</h2>
+    <p>
+      L'application Elly Fresh est éditée par Nicolas Thiébaut-George (compte
+      développeur « NTG-CORP », Paris, France). Pour toute question relative à
+      tes données : <a href="mailto:contact@ellyfresh.app">contact@ellyfresh.app</a>.
+    </p>
+
+    <h2>2. Quelles données, et où vivent-elles ?</h2>
+    <p>
+      Les données que tu crées dans l'app — recettes, planning de repas, liste
+      de courses, stock, congélateur, et ton profil (taille du foyer, régime,
+      allergies, aliments aimés ou détestés, niveau de cuisine, équipement) —
+      sont stockées <b>localement sur ton appareil</b>. L'application
+      fonctionne entièrement sans compte et sans connexion.
+    </p>
+    <p>
+      Si tu choisis de créer un compte (connexion par code e-mail à usage
+      unique), ces mêmes données sont synchronisées avec notre hébergeur
+      <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a>
+      pour que les téléphones de ton foyer partagent le même planning. La
+      synchronisation est limitée à ton foyer : personne d'autre n'y a accès,
+      et nous n'exploitons pas ces données.
+    </p>
+
+    <h2>3. Micro, caméra et photos</h2>
+    <p>Ces permissions ne servent que des fonctions que tu déclenches toi-même :</p>
+    <ul>
+      <li><b>Micro</b> : quand tu parles à Rosie (assistant vocal, dictée du
+        stock), l'enregistrement est envoyé pour traitement puis n'est pas
+        conservé par nous.</li>
+      <li><b>Caméra / photos</b> : quand tu importes une recette en photo ou
+        scannes un ticket de caisse, l'image est envoyée pour extraction du
+        texte puis n'est pas conservée par nous.</li>
+    </ul>
+
+    <h2>4. Intelligence artificielle</h2>
+    <p>
+      Les fonctions « Rosie » (import de recettes, semaine automatique, idées,
+      assistant vocal, scan de ticket) utilisent l'API <b>Google Gemini</b>.
+      Lorsque tu les utilises, le contenu nécessaire à ta demande (texte,
+      audio ou image, et les éléments pertinents de ton profil comme les
+      allergies) est transmis à Google pour générer la réponse, via notre
+      serveur — ta clé n'est jamais exposée. Nous ne stockons pas ces requêtes.
+      Le traitement par Google est soumis aux
+      <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">conditions de l'API Gemini</a>.
+    </p>
+    <p>
+      L'analyse nutritionnelle (Nutri-Score) est calculée <b>dans le
+      téléphone</b>, sur la table publique Ciqual de l'ANSES — rien n'est
+      envoyé pour cela.
+    </p>
+
+    <h2>5. Ce que nous ne faisons pas</h2>
+    <ul>
+      <li>Pas de publicité, pas de régie publicitaire, pas de marque sponsorisée.</li>
+      <li>Pas de vente ni de partage de données à des fins commerciales.</li>
+      <li>Pas de traceurs publicitaires ni d'outils d'analyse tiers dans l'app.</li>
+      <li>Pas de profilage : tes allergies et préférences ne servent qu'à tes propres suggestions.</li>
+    </ul>
+
+    <h2>6. Conservation et suppression</h2>
+    <ul>
+      <li>Les données locales se suppriment depuis l'app (Profil → réinitialiser)
+        ou en désinstallant l'application.</li>
+      <li>Les données synchronisées sont conservées tant que ton compte existe.
+        Pour supprimer ton compte et toutes les données associées, écris à
+        <a href="mailto:contact@ellyfresh.app">contact@ellyfresh.app</a> —
+        suppression sous 30 jours.</li>
+    </ul>
+
+    <h2>7. Tes droits (RGPD)</h2>
+    <p>
+      Tu disposes des droits d'accès, de rectification, d'effacement, de
+      portabilité et d'opposition sur tes données. Exerce-les par e-mail à
+      l'adresse ci-dessus. Tu peux aussi saisir la CNIL
+      (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).
+    </p>
+
+    <h2>8. Public concerné</h2>
+    <p>
+      Elly Fresh s'adresse aux adultes qui gèrent les repas d'un foyer.
+      L'application n'est pas destinée aux enfants de moins de 13 ans et ne
+      collecte pas sciemment de données les concernant.
+    </p>
+
+    <h2>9. Évolutions</h2>
+    <p>
+      Cette politique évoluera avec l'application (par exemple à l'ouverture
+      du réseau de commerçants). Toute modification substantielle sera
+      signalée dans l'app, et l'historique reste consultable sur cette page.
+    </p>
+  </div>
+</main>
+</body>
+</html>
