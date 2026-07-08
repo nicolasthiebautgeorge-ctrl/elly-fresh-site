@@ -178,7 +178,10 @@
   .screen-shot img {
     display: block; width: 100%;
     border: 2px solid var(--ink); border-radius: 10px;
+    cursor: zoom-in;
+    transition: transform 0.2s;
   }
+  .screen-shot img:hover { transform: scale(1.03); }
   .screen-shot figcaption {
     margin-top: 10px; text-align: center;
     font-family: 'Anton', sans-serif; font-size: 15px;
@@ -187,6 +190,27 @@
   }
   @media (max-width: 860px) {
     .screens-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+
+  /* ── Lightbox (zoom captures) ─────────────────────────── */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 100;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(16, 21, 30, 0.92);
+    cursor: zoom-out;
+    padding: 28px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-height: 92vh; max-width: 92vw;
+    border: 3px solid var(--ink); border-radius: 14px;
+    box-shadow: 8px 8px 0 0 var(--ink);
+    background: var(--navy);
+  }
+  .lightbox-close {
+    position: absolute; top: 18px; right: 26px;
+    font-family: 'Anton', sans-serif; font-size: 40px;
+    color: var(--yellow); line-height: 1;
   }
 
   /* ── Hero ─────────────────────────────────────────────── */
@@ -1199,6 +1223,11 @@
   </div>
 </footer>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Capture agrandie">
+  <img src="" alt="" />
+  <span class="lightbox-close" aria-hidden="true">×</span>
+</div>
+
 <script>
   // Seule animation autorisée : apparition des sections au scroll.
   const io = new IntersectionObserver(
@@ -1206,6 +1235,24 @@
     { threshold: 0.15 },
   );
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Zoom sur les captures de l'app.
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.screen-shot img').forEach((img) => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  const closeLightbox = () => {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && closeLightbox());
 </script>
 </body>
 </html>
