@@ -152,43 +152,12 @@
     width: 100%;
     max-height: 540px;
     object-fit: cover;
-    /* Sur écran large la bannière est moins haute que l'image : point focal
-       proche du haut pour ne jamais couper le visage de Rosie. */
-    object-position: left 15%;
-  }
-  .hb-text {
-    position: absolute;
-    top: 50%; right: 5.5%;
-    transform: translateY(-50%);
-    text-align: right;
-  }
-  .hb-title {
-    display: block;
-    font-family: 'Anton', sans-serif;
-    font-size: clamp(40px, 9vw, 110px);
-    line-height: 1;
-    letter-spacing: 3px;
-    color: var(--yellow);
-    text-shadow: 6px 6px 0 var(--ink);
-  }
-  .hb-tag {
-    display: inline-block;
-    margin-top: 18px;
-    font-family: 'Anton', sans-serif;
-    font-size: clamp(13px, 2vw, 21px);
-    letter-spacing: 3px;
-    color: var(--ink);
-    background: var(--yellow);
-    border: 3px solid var(--ink);
-    border-radius: 10px;
-    box-shadow: 4px 4px 0 0 var(--ink);
-    padding: 7px 16px;
+    /* Le wordmark est intégré à l'image : point focal légèrement haut pour
+       garder le visage de Rosie et le logo visibles quand la bannière crop. */
+    object-position: center 25%;
   }
   @media (max-width: 640px) {
-    .hero-banner img { max-height: 300px; object-position: 18% 15%; }
-    .hb-text { right: 4%; }
-    .hb-title { text-shadow: 4px 4px 0 var(--ink); }
-    .hb-tag { box-shadow: 3px 3px 0 0 var(--ink); padding: 5px 11px; }
+    .hero-banner img { max-height: 300px; object-position: center 25%; }
   }
 
   /* ── Hero ─────────────────────────────────────────────── */
@@ -548,11 +517,7 @@
 
 <!-- ── BANNIÈRE D'AFFICHE ───────────────────────────────── -->
 <div class="hero-banner" id="top">
-  <img src="assets/hero-rosie.webp" alt="Rosie retrousse ses manches dans sa cuisine-atelier" />
-  <div class="hb-text">
-    <span class="hb-title">ELLY<br />FRESH</span>
-    <span class="hb-tag">ON PEUT LE FAIRE !</span>
-  </div>
+  <img src="assets/hero-banner.webp" alt="Rosie retrousse ses manches dans sa cuisine-atelier — Elly Fresh, on peut le faire !" />
 </div>
 
 <!-- ── HERO ─────────────────────────────────────────────── -->

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>Elly Fresh — LinkedIn 4:5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #1C2A3F; --navy-panel: #2A3950; --navy-deep: #141F30;
+    --cream: #FAF3E7; --card: #FFFDF8; --ink: #10151E; --slate: #232B33;
+    --yellow: #F2B705; --rust: #C8500F; --khaki: #3A4A3F;
+    --pale-blue: #B9CBE0; --on-dark: #C9D4E4; --muted-dark: #9FB0C6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 1080px; height: 1350px; overflow: hidden;
+    font-family: 'Public Sans', sans-serif;
+    background: var(--navy-deep);
+    color: var(--on-dark);
+  }
+  .card {
+    width: 1080px; height: 1350px;
+    display: flex; flex-direction: column;
+    border: 4px solid var(--ink);
+  }
+  .banner {
+    position: relative; height: 420px; overflow: hidden;
+    background: #131c30; border-bottom: 4px solid var(--ink);
+  }
+  .banner img {
+    width: 100%; height: 100%; object-fit: cover;
+    object-position: left 15%;
+  }
+  .banner-text {
+    position: absolute; top: 50%; right: 48px;
+    transform: translateY(-50%); text-align: right;
+  }
+  .banner-text .title {
+    font-family: 'Anton', sans-serif;
+    font-size: 88px; line-height: 1; letter-spacing: 3px;
+    color: var(--yellow);
+    text-shadow: 5px 5px 0 var(--ink);
+  }
+  .banner-text .tag {
+    display: inline-block; margin-top: 14px;
+    font-family: 'Anton', sans-serif; font-size: 22px; letter-spacing: 2px;
+    color: var(--ink); background: var(--yellow);
+    border: 3px solid var(--ink); border-radius: 10px;
+    box-shadow: 4px 4px 0 0 var(--ink);
+    padding: 8px 16px;
+  }
+  .hero {
+    padding: 36px 48px 24px;
+    background: var(--navy-deep);
+  }
+  .hero h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: 58px; line-height: 1.08;
+    color: var(--cream); text-transform: uppercase;
+  }
+  .hero h1 em { font-style: normal; color: var(--yellow); }
+  .assurances {
+    display: flex; flex-wrap: wrap; gap: 10px 18px;
+    margin-top: 18px; font-size: 15px; font-weight: 800;
+    color: var(--on-dark);
+  }
+  .cta-row {
+    padding: 0 48px 28px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  .chip {
+    display: inline-block; font-weight: 800; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--ink); background: var(--yellow);
+    border: 3px solid var(--ink); border-radius: 8px;
+    box-shadow: 4px 4px 0 0 var(--ink);
+    padding: 8px 14px;
+  }
+  .chip.rust { background: var(--rust); color: var(--cream); }
+  .phone-wrap {
+    flex: 1; display: flex; align-items: flex-start; justify-content: center;
+    padding: 0 48px 40px;
+    background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+  }
+  .phone {
+    width: 340px;
+    background: var(--navy);
+    border: 4px solid var(--ink); border-radius: 32px;
+    box-shadow: 8px 8px 0 0 var(--ink);
+    padding: 16px 14px 14px;
+  }
+  .notch {
+    width: 96px; height: 9px; margin: 0 auto 14px;
+    background: var(--ink); border-radius: 5px;
+  }
+  .screen { display: flex; flex-direction: column; gap: 10px; }
+  .mini-brand { display: flex; align-items: center; gap: 10px; }
+  .mini-brand img {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 2px solid var(--ink); background: var(--cream);
+    box-shadow: 2px 2px 0 0 var(--ink);
+  }
+  .mini-brand b {
+    font-family: 'Anton', sans-serif; font-size: 21px;
+    color: var(--yellow); letter-spacing: 1px;
+  }
+  .mini-brand small {
+    display: block; font-size: 8.5px; font-weight: 800;
+    letter-spacing: 2px; color: var(--muted-dark);
+  }
+  .mini-date { font-size: 12px; font-weight: 700; color: var(--muted-dark); }
+  .mini-card {
+    background: var(--card); color: var(--slate);
+    border: 3px solid var(--ink); border-radius: 12px;
+    box-shadow: 4px 4px 0 0 var(--ink); padding: 12px;
+  }
+  .mini-card h4 {
+    font-weight: 800; font-size: 15px; color: var(--ink);
+  }
+  .mini-card .dish {
+    width: 100%; height: 128px; object-fit: cover;
+    border: 2px solid var(--ink); border-radius: 9px; margin: 10px 0 8px;
+  }
+  .mini-card .dish-name { font-weight: 800; font-size: 15px; }
+  .mini-card .chips { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .mini-card .chip { font-size: 9px; padding: 3px 8px; box-shadow: none; }
+  .mini-card .chip.blue { background: var(--pale-blue); }
+  .mini-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--navy-panel);
+    border: 2px solid var(--ink); border-radius: 10px;
+    box-shadow: 3px 3px 0 0 var(--ink);
+    padding: 10px 12px; font-size: 12.5px; font-weight: 700;
+  }
+  .mini-row b { color: var(--yellow); }
+  .mini-tabs {
+    display: flex; gap: 4px; font-size: 8px; font-weight: 800;
+    letter-spacing: 0.5px; color: var(--muted-dark);
+  }
+  .mini-tabs .on { color: var(--yellow); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="banner">
+    <img src="hero-rosie.webp" alt="" />
+    <div class="banner-text">
+      <div class="title">ELLY<br />FRESH</div>
+      <span class="tag">ON PEUT LE FAIRE !</span>
+    </div>
+  </div>
+  <div class="hero">
+    <h1>Les repas de la semaine, <em>sans y penser.</em></h1>
+    <div class="assurances">
+      <span>✔ Sans pub</span>
+      <span>✔ Sans marques sponsorisées</span>
+      <span>✔ ANSES · Nutri-Score</span>
+    </div>
+  </div>
+  <div class="cta-row">
+    <span class="chip rust">20 foyers testeurs</span>
+    <span class="chip">Android · avant-première</span>
+  </div>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="mini-brand">
+          <img src="rosie-avatar.png" alt="" />
+          <b>ELLY FRESH<small>ON PEUT LE FAIRE !</small></b>
+        </div>
+        <div class="mini-date">MARDI · CE SOIR</div>
+        <div class="mini-card">
+          <h4>Ce soir on mange</h4>
+          <img class="dish" src="base-02.webp" alt="" />
+          <div class="dish-name">Spaghettis bolognaise</div>
+          <div class="chips">
+            <span class="chip">25 min</span>
+            <span class="chip blue">Les enfants adorent</span>
+          </div>
+        </div>
+        <div class="mini-row"><span>🧺 Stock maison</span><b>23 produits</b></div>
+        <div class="mini-row"><span>🛒 Liste de courses</span><b>7/26</b></div>
+        <div class="mini-tabs">
+          <span class="on">AUJOURD'HUI</span><span>SEMAINE</span><span>LISTE</span><span>RECETTES</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
