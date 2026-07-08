@@ -160,6 +160,35 @@
     .hero-banner img { max-height: 300px; object-position: center 25%; }
   }
 
+  /* ── Captures réelles ─────────────────────────────────── */
+  .screens { padding: 54px 0 62px; }
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 34px;
+  }
+  .screen-shot {
+    margin: 0;
+    background: var(--navy);
+    border-radius: 18px;
+    padding: 10px 10px 12px;
+    box-shadow: 6px 6px 0 0 var(--ink);
+  }
+  .screen-shot img {
+    display: block; width: 100%;
+    border: 2px solid var(--ink); border-radius: 10px;
+  }
+  .screen-shot figcaption {
+    margin-top: 10px; text-align: center;
+    font-family: 'Anton', sans-serif; font-size: 15px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--yellow);
+  }
+  @media (max-width: 860px) {
+    .screens-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+
   /* ── Hero ─────────────────────────────────────────────── */
   .hero { padding: 80px 0 90px; }
   .hero .wrap { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
@@ -519,6 +548,32 @@
 <div class="hero-banner" id="top">
   <img src="assets/hero-banner.webp" alt="Rosie retrousse ses manches dans sa cuisine-atelier — Elly Fresh, on peut le faire !" />
 </div>
+
+<!-- ── CAPTURES RÉELLES DE L'APP ────────────────────────── -->
+<section class="screens dark-panel" id="captures">
+  <div class="wrap">
+    <p class="kicker">L'app, pour de vrai</p>
+    <h2 style="color:var(--cream)">Pas une maquette : de vraies captures</h2>
+    <div class="screens-grid">
+      <figure class="screen-shot hard reveal">
+        <img src="assets/screen-accueil.png" alt="Écran Aujourd'hui : Dis-moi tout, repas du soir, liste et stock" loading="lazy" />
+        <figcaption>Aujourd'hui</figcaption>
+      </figure>
+      <figure class="screen-shot hard reveal">
+        <img src="assets/screen-semaine.png" alt="Écran Semaine : dîners planifiés, équilibre Nutri-Score" loading="lazy" />
+        <figcaption>Semaine</figcaption>
+      </figure>
+      <figure class="screen-shot hard reveal">
+        <img src="assets/screen-liste.png" alt="Écran Liste de courses : articles par rayon avec quantités" loading="lazy" />
+        <figcaption>Courses</figcaption>
+      </figure>
+      <figure class="screen-shot hard reveal">
+        <img src="assets/screen-recettes.png" alt="Écran Recettes : catalogue avec temps, coût et Nutri-Score" loading="lazy" />
+        <figcaption>Recettes</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
 <!-- ── HERO ─────────────────────────────────────────────── -->
 <section class="hero dark">
