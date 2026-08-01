@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Une recette pour toi — Elly Fresh</title>
+<meta name="description" content="Une recette partagée avec Elly Fresh, l'assistant familial qui allège la charge mentale des repas." />
+<!-- Les liens de partage ne doivent jamais être indexés : ils contiennent une
+     recette privée dans le fragment. noindex par sécurité. -->
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #1C2A3F;
+    --navy-panel: #2A3950;
+    --cream: #FAF3E7;
+    --card: #FFFDF8;
+    --ink: #10151E;
+    --slate: #232B33;
+    --yellow: #F2B705;
+    --red: #C8102E;
+    --khaki: #3A4A3F;
+    --pale-blue: #B9CBE0;
+    --taupe: #8D8272;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Public Sans', sans-serif;
+    background: var(--navy);
+    color: var(--slate);
+    line-height: 1.55;
+    padding: 24px 16px 48px;
+  }
+  h1, .poster { font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: .5px; font-weight: 400; line-height: 1.1; }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  .brand { text-align: center; color: var(--yellow); font-size: 15px; letter-spacing: 2px; margin-bottom: 18px; }
+  .card {
+    background: var(--card);
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 7px 7px 0 0 var(--ink);
+    padding: 22px;
+  }
+  h1 { font-size: 30px; color: var(--slate); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+  .chip {
+    font-weight: 800; font-size: 11px; letter-spacing: .5px; text-transform: uppercase;
+    border: 2px solid var(--ink); border-radius: 999px; padding: 4px 10px; color: var(--ink);
+    background: var(--yellow);
+  }
+  .chip.blue { background: var(--pale-blue); }
+  .chip.khaki { background: var(--khaki); color: var(--cream); border-color: var(--khaki); }
+  .label { font-family: 'Public Sans'; font-weight: 800; font-size: 12px; letter-spacing: 1.5px; color: var(--taupe); text-transform: uppercase; margin: 22px 0 8px; }
+  .row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid #E7DFCE; }
+  .row .name { font-weight: 600; color: var(--slate); }
+  .row .qty { font-weight: 700; color: var(--taupe); white-space: nowrap; }
+  ol { padding-left: 20px; }
+  ol li { margin: 8px 0; font-weight: 600; }
+  .actions { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
+  .btn {
+    display: block; text-align: center; text-decoration: none;
+    font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: .5px; font-size: 18px;
+    padding: 15px; border: 2px solid var(--ink); border-radius: 12px; box-shadow: 4px 4px 0 0 var(--ink);
+  }
+  .btn.primary { background: var(--red); color: #fff; }
+  .btn.ghost { background: var(--cream); color: var(--slate); }
+  .foot { text-align: center; color: var(--pale-blue); font-size: 13px; margin-top: 24px; line-height: 1.5; }
+  .foot a { color: var(--yellow); }
+  .error { background: var(--card); border: 3px solid var(--ink); border-radius: 14px; box-shadow: 7px 7px 0 0 var(--ink); padding: 24px; text-align: center; }
+  .error h1 { font-size: 24px; margin-bottom: 10px; }
+  .warn { background: #FBE3E3; border: 2px solid var(--red); border-radius: 10px; padding: 10px 12px; margin-top: 14px; color: #7A0C1C; font-weight: 700; font-size: 13px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">🍽️ ELLY FRESH</div>
+    <div id="root"></div>
+    <p class="foot">
+      Elly Fresh allège la charge mentale des repas — planning, courses, stock.
+      Sans pub, sans marques sponsorisées.<br />
+      <a href="/">En savoir plus</a>
+    </p>
+  </div>
+
+<script>
+  var UNIT_LABELS = {
+    g: 'g', kg: 'kg', ml: 'ml', cl: 'cl', l: 'L',
+    piece: '', tranche: 'tranche(s)', pincee: 'pincée(s)',
+    sachet: 'sachet(s)', cas: 'c. à s.', cac: 'c. à c.'
+  };
+
+  // Décodeur miroir de src/utils/recipe-share.ts : base64url → UTF-8 → JSON.
+  function fromBase64url(payload) {
+    var b64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    var bin = atob(b64);
+    var percent = '';
+    for (var i = 0; i < bin.length; i++) {
+      percent += '%' + ('0' + bin.charCodeAt(i).toString(16)).slice(-2);
+    }
+    return decodeURIComponent(percent);
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function qtyLabel(entry) {
+    var q = entry[1], u = entry[2];
+    if (q == null) return '—';
+    var label = UNIT_LABELS[u] || '';
+    return (q + ' ' + label).trim();
+  }
+
+  function renderError() {
+    document.getElementById('root').innerHTML =
+      '<div class="error"><h1>Recette illisible</h1>' +
+      '<p>Ce lien est incomplet ou trop ancien. Demande à ton ami de le renvoyer.</p></div>';
+  }
+
+  function render(recipe, payload) {
+    var chips = '<span class="chip">' + esc(recipe.m) + ' MIN</span>' +
+      '<span class="chip blue">' + esc(recipe.s) + ' PERS.</span>';
+    if (recipe.c) chips += '<span class="chip">' + '€'.repeat(recipe.c) + '</span>';
+    (recipe.g || []).forEach(function (t) {
+      chips += '<span class="chip khaki">' + esc(String(t).toUpperCase()) + '</span>';
+    });
+
+    var ings = (recipe.i || []).map(function (entry) {
+      return '<div class="row"><span class="name">' + esc(entry[0]) +
+        '</span><span class="qty">' + esc(qtyLabel(entry)) + '</span></div>';
+    }).join('');
+
+    var steps = '';
+    if (recipe.p && recipe.p.length) {
+      steps = '<div class="label">Préparation</div><ol>' +
+        recipe.p.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>';
+    }
+
+    var deepLink = 'ellyfresh://recette/partage?d=' + encodeURIComponent(payload);
+
+    document.getElementById('root').innerHTML =
+      '<div class="card">' +
+        '<h1>' + esc(recipe.t) + '</h1>' +
+        '<div class="chips">' + chips + '</div>' +
+        '<div class="label">Ingrédients (' + (recipe.i || []).length + ')</div>' + ings +
+        steps +
+        '<div class="actions">' +
+          '<a class="btn primary" href="' + deepLink + '">Ouvrir dans Elly Fresh</a>' +
+          '<a class="btn ghost" href="/">Installer l\'app</a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  (function () {
+    var payload = (location.hash || '').replace(/^#/, '');
+    if (!payload) { renderError(); return; }
+    try {
+      var recipe = JSON.parse(fromBase64url(payload));
+      if (!recipe || recipe.v !== 1 || !recipe.t || !recipe.i || !recipe.i.length) {
+        renderError(); return;
+      }
+      render(recipe, payload);
+    } catch (e) {
+      renderError();
+    }
+  })();
+</script>
+</body>
+</html>
