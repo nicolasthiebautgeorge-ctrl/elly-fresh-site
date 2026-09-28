@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chouette-Frigo — Deviens testeur (Android et iPhone)</title>
+<meta name="description" content="Teste Chouette-Frigo avant tout le monde : le tuto pas à pas pour Android (Google Play) et iPhone (TestFlight), en 3 minutes." />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .pick { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+  .pick .btn.alt { background: var(--cream); }
+  .os-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; margin-top: 42px; }
+  .os { background: var(--card); color: var(--slate); padding: 26px 24px; scroll-margin-top: 90px; }
+  .os h3 { font-size: 26px; color: var(--ink); margin-bottom: 4px; }
+  .os .who { font-size: 13px; font-weight: 800; color: var(--taupe); letter-spacing: 1px; text-transform: uppercase; }
+  .os.mine { outline: 4px solid var(--yellow); }
+  .os .mine-tag { display: none; }
+  .os.mine .mine-tag { display: inline-block; }
+  .howto { list-style: none; counter-reset: step; margin: 20px 0 0; padding: 0; }
+  .howto li { counter-increment: step; position: relative; padding: 0 0 18px 50px; font-size: 15px; }
+  .howto li::before {
+    content: counter(step); position: absolute; left: 0; top: -2px;
+    width: 34px; height: 34px; display: grid; place-items: center;
+    font-family: 'Anton', sans-serif; font-size: 18px; color: var(--ink);
+    background: var(--yellow); border: 2px solid var(--ink); border-radius: 8px;
+  }
+  .howto b { color: var(--ink); }
+  .howto .btn { margin-top: 10px; font-size: 13px; padding: 9px 16px; }
+  .note { margin-top: 6px; padding: 12px 14px; background: var(--pale-blue); color: var(--ink); border: 2px solid var(--ink); border-radius: 8px; font-size: 13.5px; font-weight: 700; }
+  .faq { margin-top: 30px; max-width: 46em; }
+  .faq details { background: var(--card); color: var(--slate); border: 2px solid var(--ink); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+  .faq summary { cursor: pointer; font-weight: 800; color: var(--ink); }
+  .faq p { margin-top: 10px; font-size: 14.5px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <img src="assets/chouette-avatar.png" alt="Chouette-Frigo" />
+      <span>CHOUETTE-FRIGO<small>Pas d'idée. Pas de temps. Pas de tune.</small></span>
+    </a>
+    <a class="btn" style="font-size:13px; padding:9px 18px;" href="#inscription">Je m'inscris</a>
+  </div>
+</header>
+
+<!-- ── CE QUE L'APP FAIT POUR TOI ───────────────────────── -->
+<section class="hero dark">
+  <div class="wrap" style="display:block">
+    <p class="kicker">Bêta-test · gratuit · 14 jours</p>
+    <h1>Teste Chouette-Frigo <em>avant tout le monde.</em></h1>
+    <p class="sub">
+      Chouette répond à « qu'est-ce qu'on mange ? » en 90 secondes par jour.
+      On cherche 12 familles pour la mettre à l'épreuve de la vraie vie.
+    </p>
+    <div class="pillars">
+      <div class="pillar hard">
+        <span class="num">PAS D'IDÉE</span>
+        <h3>15 plats, 3 envies</h3>
+        <p>Chaque jour, Chouette te montre 15 plats choisis pour ta famille. Tu gardes 3 envies, et c'est fini pour aujourd'hui.</p>
+      </div>
+      <div class="pillar hard">
+        <span class="num">PAS DE TEMPS</span>
+        <h3>La semaine et les courses</h3>
+        <p>Tu poses tes envies sur un midi ou un soir. Un bouton, et seuls les ingrédients qui manquent partent sur la liste.</p>
+      </div>
+      <div class="pillar hard">
+        <span class="num">PAS DE TUNE</span>
+        <h3>Ton budget d'abord</h3>
+        <p>Tu tapes « j'ai 60 € ». Chouette te dit si ça tient pour la semaine, et le reste du congélo compte 0 €.</p>
+      </div>
+    </div>
+    <div class="pick" style="margin-top:36px">
+      <a class="btn" href="#android">J'ai un Android</a>
+      <a class="btn alt" href="#iphone">J'ai un iPhone</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSCRIPTION ──────────────────────────────────────── -->
+<section class="light" id="inscription">
+  <div class="wrap">
+    <p class="kicker">Étape 0 · 30 secondes</p>
+    <h2>D'abord, dis-nous qui tu es.</h2>
+    <p class="lead">
+      Les stores n'ouvrent une app en test qu'aux personnes invitées. Envoie-nous
+      l'adresse e-mail de ton téléphone : le <b>Gmail du Play Store</b> sur Android,
+      ou ton <b>e-mail Apple</b> sur iPhone. On t'ajoute sous 24 h et on te
+      prévient.
+    </p>
+    <a class="btn" style="margin-top:20px" href="mailto:contact@ellyfresh.fr?subject=Je%20veux%20tester%20Chouette-Frigo&amp;body=Bonjour%2C%0A%0AJe%20veux%20tester%20Chouette-Frigo.%0A%0AMon%20t%C3%A9l%C3%A9phone%20%3A%20Android%20%2F%20iPhone%0AMon%20e-mail%20Play%20Store%20ou%20Apple%20%3A%20%0A">Envoyer mon e-mail</a>
+  </div>
+</section>
+
+<!-- ── LES DEUX TUTOS ───────────────────────────────────── -->
+<section class="dark-panel">
+  <div class="wrap">
+    <p class="kicker">Une fois invité</p>
+    <h2 style="color:var(--cream)">Installer l'app, pas à pas</h2>
+    <div class="os-grid">
+
+      <div class="os hard" id="android">
+        <span class="soon mine-tag">Ton téléphone</span>
+        <h3>Android</h3>
+        <span class="who">Google Play · test fermé</span>
+        <ol class="howto">
+          <li>Sur ton téléphone, ouvre le <b>Play Store</b> et vérifie en haut à droite que tu es connecté avec <b>le Gmail que tu nous as envoyé</b>.</li>
+          <li>Ouvre le lien d'inscription, <b>depuis ce téléphone</b> :
+            <br /><a class="btn" href="https://play.google.com/apps/testing/com.ntgcorp.ellyfresh">Ouvrir le lien testeur</a></li>
+          <li>Appuie sur <b>« Devenir testeur »</b>. La page confirme : « Vous êtes désormais testeur ».</li>
+          <li>Appuie sur <b>« Télécharger sur Google Play »</b>, puis <b>Installer</b>. C'est fait.</li>
+        </ol>
+        <p class="note">Important : reste inscrit 14 jours d'affilée. Google compte les testeurs jour après jour avant d'autoriser la sortie publique. Chaque jour compte.</p>
+      </div>
+
+      <div class="os hard" id="iphone">
+        <span class="soon mine-tag">Ton téléphone</span>
+        <h3>iPhone</h3>
+        <span class="who">Apple · TestFlight</span>
+        <ol class="howto">
+          <li>Installe l'app gratuite <b>TestFlight</b>, l'outil officiel d'Apple pour les bêtas :
+            <br /><a class="btn" href="https://apps.apple.com/app/testflight/id899247664">TestFlight sur l'App Store</a></li>
+          <li>Sur ton iPhone, ouvre l'e-mail d'Apple qui t'invite à tester <b>Chouette-Frigo</b>, et appuie sur le bouton <b>« Afficher dans TestFlight »</b> (ou « View in TestFlight »).</li>
+          <li>Dans TestFlight, appuie sur <b>Accepter</b> puis <b>Installer</b>. L'app arrive sur ton écran d'accueil.</li>
+        </ol>
+        <p class="note">Les mises à jour arrivent par TestFlight, pas par l'App Store. Si TestFlight te le propose, accepte les notifications : tu sauras quand une nouvelle version sort.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLÈMES FRÉQUENTS ──────────────────────────────── -->
+<section class="light">
+  <div class="wrap">
+    <p class="kicker">Ça coince ?</p>
+    <h2>Les problèmes fréquents</h2>
+    <div class="faq">
+      <details>
+        <summary>Android : « L'application n'est pas disponible » ou page d'erreur</summary>
+        <p>Deux causes presque à chaque fois. Soit le Play Store est connecté avec un autre compte Gmail que celui que tu nous as envoyé : change de compte en haut à droite du Play Store, puis rouvre le lien. Soit ton invitation vient d'être faite : attends une heure ou deux, Google met parfois du temps.</p>
+      </details>
+      <details>
+        <summary>Android : je ne trouve pas l'app en la cherchant dans le Play Store</summary>
+        <p>C'est normal : en test fermé, l'app est invisible dans la recherche. Passe toujours par le lien testeur ci-dessus.</p>
+      </details>
+      <details>
+        <summary>iPhone : je n'ai pas reçu l'e-mail d'Apple</summary>
+        <p>Regarde dans les spams, et vérifie que tu nous as donné l'e-mail de ton compte Apple (Réglages → ton nom, tout en haut). Sinon, écris-nous : on renvoie l'invitation.</p>
+      </details>
+      <details>
+        <summary>iPhone : le bouton de l'e-mail ne fait rien</summary>
+        <p>Installe d'abord l'app TestFlight (étape 1), puis rouvre l'e-mail depuis l'iPhone, pas depuis un ordinateur.</p>
+      </details>
+      <details>
+        <summary>Je dois créer un compte ?</summary>
+        <p>Non. L'app marche sans compte. Tu peux en créer un plus tard pour retrouver tes données sur un autre téléphone du foyer.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── CE QU'ON TE DEMANDE ──────────────────────────────── -->
+<section class="dark">
+  <div class="wrap">
+    <p class="kicker">Ton rôle de testeur</p>
+    <h2 style="color:var(--cream)">90 secondes par jour, et ta franchise.</h2>
+    <div class="steps">
+      <div class="step hard">
+        <span class="n">01</span>
+        <h3>Utilise-la pour de vrai</h3>
+        <p>Fais ton rendez-vous du jour, pose un repas, fais une liste. Pas besoin d'y passer du temps : c'est justement le but.</p>
+      </div>
+      <div class="step hard">
+        <span class="n">02</span>
+        <h3>Dis ce qui t'agace</h3>
+        <p>Un bouton qui ne répond pas, un plat qui ne te ressemble pas, un mot que tu ne comprends pas. Le formulaire est dans l'app, ou réponds-nous par e-mail.</p>
+      </div>
+      <div class="step hard">
+        <span class="n">03</span>
+        <h3>Vérifie la fiche si allergie</h3>
+        <p>L'app filtre les allergies de ta famille, mais c'est une bêta : jette un œil aux ingrédients de la fiche avant de cuisiner.</p>
+      </div>
+    </div>
+    <div class="pick" style="margin-top:36px">
+      <a class="btn" href="#inscription">Je m'inscris</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      Créé avec ❤ pour Elly et toutes celles et ceux qui portent la charge
+      mentale des repas.
+    </p>
+    <div class="links">
+      <a href="index.html">Accueil</a>
+      <a href="mailto:contact@ellyfresh.fr">Contact</a>
+      <a href="confidentialite.html">Confidentialité</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const ua = navigator.userAgent;
+  const mine = /android/i.test(ua) ? 'android' : /iphone|ipad|ipod/i.test(ua) ? 'iphone' : null;
+  if (mine) document.getElementById(mine).classList.add('mine');
+</script>
+</body>
+</html>
